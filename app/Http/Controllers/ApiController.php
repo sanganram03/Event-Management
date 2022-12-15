@@ -46,44 +46,48 @@ class ApiController extends Controller
             $response['token'] = $user->createToken('matrimony');
             $response['name']=$user->name;
             $user=Auth::user();
-            return view(('admin.index'), compact('user'));
+            $usertype=$user->usertype;
+
+            return view(('admin.index'), compact('usertype'));
             //return response()->json($response,200);
         }else{
             //return response()->json($response,400);
             return view('admin.error');
         }
     }
-    public function details(){
-        $user=Auth::user();
-        $response['user']=$user;
-        return response()->json($response,200);
-    }
+// Event Process
     public function eventsview(){
-        $events = Events::all();
-        return view(('admin.eventsview1'), compact('events'));
+        $userid=Auth::user()->id;
+        $usertype=Auth::user()->usertype;
+        $usertype=$user->usertype;
+
+        $events = Events::where('userid','=',$userid)->get();
+        return view(('admin.eventsview1'), compact('events','usertype'));
     }
     public function eventslist(){
-        $events = Events::all();
+        $user=Auth::user();
+        $userid=$user->id;
+        $events = Events::where('userid','=',$userid)->all();
         return view(('admin.eventsview1'), compact('events'));;
     }
-    public function annilist(){
-        $annivers = annivers::all();
-        return view(('admin.anniversarysview'), compact('annivers'));;
-    }
-
     public function eventsadd(Request $request){
-        $events = Events::all();
+        $user=Auth::user();
+        $userid=$user->id;
+        $events = Events::where('userid','=',$userid)->all();
         return view(('admin.eventsadd'), compact('events'));;
     }
     public function addevent(Request $request){
         $data= new events;
+        $user=Auth::user();
+        $userid=$user->id;
+        $data->userid=$userid;
         $data->title=$request->title;
         $data->description=$request->description;
         $data->start=$request->start;
         $data->end=$request->end;
         $data->venue=$request->venue;
         $data->save();
-        $events = Events::all();
+        $events = Events::where('userid','=',$userid)->all();
         return view(('admin.eventsview1'), compact('events'));;
     }
 
@@ -93,19 +97,40 @@ class ApiController extends Controller
     }
     public function editevent(Request $request, $id){
         $data = Events::find($id);
+        $user=Auth::user();
+        $userid=$user->id;
+        $data->userid=$userid;
         $data->title=$request->title;
         $data->description=$request->description;
         $data->start=$request->start;
         $data->end=$request->end;
         $data->venue=$request->venue;
         $data->save();
-        $events = Events::all();
+        $events = Events::where('userid','=',$userid)->all();
         return view(('admin.eventsview1'), compact('events'));
     }
     public function eventdetails(Request $request, $id){
         $events = Events::find($id);
-
         return view(('admin.eventdetails'), compact('events'));
+    }
+
+    public function deleteeven($id){
+
+        $data=Events::find($id);
+        $data->Delete();
+        $user=Auth::user();
+        $userid=$user->id;
+        $events = Events::where('userid','=',$userid)->all();
+        return view(('admin.eventsview1'), compact('events'));;
+
+    }
+
+// Anniversary Process
+    public function annilist(){
+        $user=Auth::user();
+        $userid=$user->id;
+        $annivers = annivers::where('userid','=',$userid)->all();
+        return view(('admin.anniversarysview'), compact('annivers'));;
     }
     public function editanni($id){
         $annivers = Annivers::find($id);
@@ -113,6 +138,9 @@ class ApiController extends Controller
     }
     public function anniedit(Request $request, $id){
         $data = Annivers::find($id);
+        $user=Auth::user();
+        $userid=$user->id;
+        $data->userid=$userid;
         $data->name=$request->name;
         $data->anniversary=$request->anniversary;
         $data->start=$request->start;
@@ -121,16 +149,52 @@ class ApiController extends Controller
         $data->email=$request->email;
         $data->address=$request->address;
         $data->save();
-        $annivers = Annivers::all();
+        $annivers = Annivers::where('userid','=',$userid)->all();
         return view(('admin.anniversarysview'), compact('annivers'));;
     }
     public function annidetails(Request $request, $id){
         $annivers = annivers::find($id);
-
         return view(('admin.anniverdetails'), compact('annivers'));;
     }
+    public function anniversaryview(){
+        $user=Auth::user();
+        $userid=$user->id;
+        $annivers = annivers::where('userid','=',$userid)->all();
+        return view(('admin.anniversarysview'), compact('annivers'));;
+    }
+    public function anniversarysadd(Request $request){
+        $user=Auth::user();
+        $userid=$user->id;
+        $annivers = annivers::where('userid','=',$userid)->all();
+        return view(('admin.anniversaryadd'), compact('annivers'));;
+    }
+    public function addanniversary(Request $request){
+        $data= new annivers;
+        $user=Auth::user();
+        $userid=$user->id;
+        $data->userid=$userid;
+        $data->name=$request->name;
+        $data->email=$request->email;
+        $data->phone=$request->phone;
+        $data->anniversary=$request->anniversary;
+        $data->start=$request->start;
+        $data->end=$request->end;
+        $data->address=$request->address;
+        $data->save();
+        $annivers = annivers::where('userid','=',$userid)->all();
+        return view(('admin.anniversarysview'), compact('annivers'));;
+    }
+    public function deleteanni($id){
 
+        $data=annivers::find($id);
+        $data->Delete();
+        $annivers = annivers::all();
+        return view(('admin.anniversarysview'), compact('annivers'));;
+
+    }
+// User Process
     public function usersview(){
+
         $user = User::all();
         return view(('admin.userview'), compact('user'));;
     }
@@ -175,43 +239,6 @@ class ApiController extends Controller
         $data->save();
         $user = User::all();
         return view(('admin.userview'), compact('user'));
-    }
-    public function anniversaryview(){
-        $annivers = annivers::all();
-        return view(('admin.anniversarysview'), compact('annivers'));;
-    }
-    public function anniversarysadd(Request $request){
-        $annivers = annivers::all();
-        return view(('admin.anniversaryadd'), compact('annivers'));;
-    }
-    public function addanniversary(Request $request){
-        $data= new annivers;
-        $data->name=$request->name;
-        $data->email=$request->email;
-        $data->phone=$request->phone;
-        $data->anniversary=$request->anniversary;
-        $data->start=$request->start;
-        $data->end=$request->end;
-        $data->address=$request->address;
-        $data->save();
-        $annivers = annivers::all();
-        return view(('admin.anniversarysview'), compact('annivers'));;
-    }
-    public function deleteanni($id){
-
-        $data=annivers::find($id);
-        $data->Delete();
-        $annivers = annivers::all();
-        return view(('admin.anniversarysview'), compact('annivers'));;
-
-    }
-    public function deleteeven($id){
-
-        $data=Events::find($id);
-        $data->Delete();
-        $events = Events::all();
-        return view(('admin.eventsview1'), compact('events'));;
-
     }
     public function deleteuser($id){
 

@@ -34,7 +34,7 @@
             <span class="nav-link-text ms-1">Anniversery</span>
           </a>
         </li>
-
+        @if ($user->usertype == 1)
         <li class="nav-item">
             <a class="nav-link "  href="{{url("api/usersview")}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -43,6 +43,7 @@
               <span class="nav-link-text ms-1">User Managements</span>
             </a>
           </li>
+        @endif
           <li class="nav-item">
             <a class="nav-link " href="./pages/virtual-reality.html">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -51,6 +52,7 @@
               <span class="nav-link-text ms-1">Change Password</span>
             </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link " href="./pages/virtual-reality.html">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">

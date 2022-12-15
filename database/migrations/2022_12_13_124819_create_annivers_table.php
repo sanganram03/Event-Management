@@ -15,12 +15,13 @@ class CreateAnniversTable extends Migration
     {
         Schema::create('annivers', function (Blueprint $table) {
             $table->id();
+            $table->string('userid');
             $table->string('name');
             $table->string('anniversary');
             $table->string('start');
             $table->string('end');
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('address');
             $table->timestamps();
         });
