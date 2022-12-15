@@ -31,9 +31,9 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                   <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                  <li class="breadcrumb-item text-sm text-white active" aria-current="page">User Management</li>
+                  <li class="breadcrumb-item text-sm text-white active" aria-current="page">Anniversary</li>
                 </ol>
-                <h6 class="font-weight-bolder text-white mb-0">Add User</h6>
+                <h6 class="font-weight-bolder text-white mb-0">View Details</h6>
               </nav>
               <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -46,7 +46,7 @@
                   <li class="nav-item d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                       <i class="fa fa-user me-sm-1"></i>
-                      <span class="d-sm-inline d-none">Sign In</span>
+                      <span class="d-sm-inline d-none">{{$user->name}}</span>
                     </a>
                   </li>
                   <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -148,76 +148,77 @@
 <div class="card ">
   <div class="card-header pb-0 p-3">
     <div class="d-flex justify-content-between">
-      <h6 class="mb-2">Users</h6>
+      <h6 class="mb-2">Anniversarys</h6>
     </div>
   </div>
   <div class="table-responsive">
-    <form action="{{url('api/adduser')}}" method="POST" enctype="multipart/form-data">
+
+    <form action="{{url('api/annilist')}}" method="POST" enctype="multipart/form-data">
     <table class="table align-items-center ">
+
       <tbody>
         <tr>
-
-
             <td>
                 <div class="">
                   <p class="text-xs font-weight-bold mb-0">Name</p>
-                  <input type="text" name="name" required>
-                </div>
-              </td></tr>
-              <tr>
-              <td>
-                <div class="">
-                  <p class="text-xs font-weight-bold mb-0">Email</p>
-                  <input type="email" name="email" required>
-                </div>
-              </td></tr>
-              <tr>
-              <td class="align-middle text-sm">
-                <div class="">
-                  <p class="text-xs font-weight-bold mb-0">Phone</p>
-                  <input type="number" name="phone" minlength ="10" maxlength ="10" irequired>
+                  <input type="text" name="name" value="{{$annivers->name}}" readonly>
                 </div>
               </td></tr>
               <tr>
                 <td class="">
                   <div class="">
-                    <p class="text-xs font-weight-bold mb-0">Gender</p>
-                    <select name="gender" required autocomplete="off">
-                      <option value="">gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="transgender">Transgender</option>
-                  </select>
+                    <p class="text-xs font-weight-bold mb-0">Anniversary</p>
+                    <input type="text" name="anniversary" value="{{$annivers->anniversary}}" readonly>
                   </div>
                 </td>
-          </tr>
-
+                </tr>
+                <tr>
+                    <td>
+                        <div class="">
+                          <p class="text-xs font-weight-bold mb-0">Start Time Event</p>
+                          <input type="datetime-local" name="start" value="{{$annivers->start}}" readonly>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="">
+                              <p class="text-xs font-weight-bold mb-0">End Time Event</p>
+                              <input type="datetime-local" name="end" value="{{$annivers->end}}"  readonly>
+                            </div>
+                          </td>
+                        </tr>
               <tr>
-              <td class="">
+                <td class="align-middle text-sm">
+                  <div class="">
+                    <p class="text-xs font-weight-bold mb-0">Phone</p>
+                    <input type="number" name="phone" value="{{$annivers->phone}}"  readonly>
+                  </div>
+                </td></tr>
+                <tr>
+              <td>
                 <div class="">
-                  <p class="text-xs font-weight-bold mb-0">User Type</p>
-                  <select name="usertype" required autocomplete="off">
-                    <option value="">User Type</option>
-                    <option value="1">Admin</option>
-                    <option value="0">User</option>
-                </select>
-                </div>
-              </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="">
-                  <p class="text-xs font-weight-bold mb-0">Password</p>
-                  <input type="password" name="password" required>
+                  <p class="text-xs font-weight-bold mb-0">Email</p>
+                  <input type="email" name="email" value="{{$annivers->email}}"  readonly>
                 </div>
               </td></tr>
-        <tr>
+              <tr>
+                <td>
+                  <div class="">
+                    <p class="text-xs font-weight-bold mb-0">Address</p>
+                    <input type="text" name="address" value="{{$annivers->address}}"  readonly>
+                  </div>
+                </td></tr>
+       <tr>
             <td class="">
               <div class="">
-                <input type="submit" name="submit" required>
+                <input type="submit" name="submit" readonly>
               </div>
             </td>
-      </tr></tbody></table></div></div></div></div></div>
+      </tr></tbody>
+    </table>
+
+    </div></div></div></div></div>
 
       @include('admin.footer')
   <div class="fixed-plugin">
@@ -237,7 +238,7 @@ input[type=text], select, textarea {
   border-radius: 4px;
   resize: vertical;
 }
-input[type=date], select, textarea {
+input[type=datetime-local], select, textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;

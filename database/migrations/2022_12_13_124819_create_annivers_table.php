@@ -17,7 +17,8 @@ class CreateAnniversTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('anniversary');
-            $table->string('dateofanni');
+            $table->string('start');
+            $table->string('end');
             $table->string('phone');
             $table->string('email')->unique();
             $table->string('address');

@@ -17,12 +17,11 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->datetime('start_time');
+            $table->string('start');
+            $table->string('end');
             $table->text('venue');
-
             $table->timestamps();
             $table->softDeletes();
-
             $table->index(['deleted_at']);
         });
     }

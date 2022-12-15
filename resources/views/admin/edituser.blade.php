@@ -33,7 +33,7 @@
                   <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
                   <li class="breadcrumb-item text-sm text-white active" aria-current="page">User Management</li>
                 </ol>
-                <h6 class="font-weight-bolder text-white mb-0">Add User</h6>
+                <h6 class="font-weight-bolder text-white mb-0">Edit User Details</h6>
               </nav>
               <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -46,7 +46,7 @@
                   <li class="nav-item d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                       <i class="fa fa-user me-sm-1"></i>
-                      <span class="d-sm-inline d-none">Sign In</span>
+                      <span class="d-sm-inline d-none">{{$user->name}}</span>
                     </a>
                   </li>
                   <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -152,7 +152,7 @@
     </div>
   </div>
   <div class="table-responsive">
-    <form action="{{url('api/adduser')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{url('api/editusers',$user->id)}}" method="POST" enctype="multipart/form-data">
     <table class="table align-items-center ">
       <tbody>
         <tr>
@@ -161,21 +161,21 @@
             <td>
                 <div class="">
                   <p class="text-xs font-weight-bold mb-0">Name</p>
-                  <input type="text" name="name" required>
+                  <input type="text" name="name" value="{{$user->name}}" required>
                 </div>
               </td></tr>
               <tr>
               <td>
                 <div class="">
                   <p class="text-xs font-weight-bold mb-0">Email</p>
-                  <input type="email" name="email" required>
+                  <input type="email" name="email" value="{{$user->email}}" required>
                 </div>
               </td></tr>
               <tr>
               <td class="align-middle text-sm">
                 <div class="">
                   <p class="text-xs font-weight-bold mb-0">Phone</p>
-                  <input type="number" name="phone" minlength ="10" maxlength ="10" irequired>
+                  <input type="number" name="phone" minlength ="10" maxlength ="10" value="{{$user->phone}}" required>
                 </div>
               </td></tr>
               <tr>
@@ -183,7 +183,7 @@
                   <div class="">
                     <p class="text-xs font-weight-bold mb-0">Gender</p>
                     <select name="gender" required autocomplete="off">
-                      <option value="">gender</option>
+                      <option value="{{$user->gender}}">{{$user->gender}}</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="transgender">Transgender</option>
@@ -197,7 +197,7 @@
                 <div class="">
                   <p class="text-xs font-weight-bold mb-0">User Type</p>
                   <select name="usertype" required autocomplete="off">
-                    <option value="">User Type</option>
+                    <option value="{{$user->usertype}}">{{$user->usertype}}</option>
                     <option value="1">Admin</option>
                     <option value="0">User</option>
                 </select>
@@ -208,7 +208,7 @@
             <td>
                 <div class="">
                   <p class="text-xs font-weight-bold mb-0">Password</p>
-                  <input type="password" name="password" required>
+                  <input type="password" name="password" value="{{$user->password}}"required>
                 </div>
               </td></tr>
         <tr>
@@ -267,5 +267,13 @@ input[type=number], select, textarea {
   border-radius: 4px;
   resize: vertical;
 }
+input[type=password], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
 </style>
 </html>
